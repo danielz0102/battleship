@@ -129,3 +129,12 @@ describe('Gameboard.print()', () => {
     expect(spy).toHaveBeenCalled()
   })
 })
+
+describe('Gameboard.render()', () => {
+  const gameboard = new Gameboard()
+
+  it('returns a HTML element', () => {
+    const element = gameboard.render()
+    expect(element).toBeInstanceOf(HTMLElement)
+  })
+})

@@ -1,3 +1,5 @@
+import { Ship } from '@/modules/Ship'
+
 export const ERRORS = {
   INVALID_COORDINATE:
     'The coordinate must be a number and has to be within the gameboard size',
@@ -10,4 +12,12 @@ export const MARK = {
   MISSED: 'missed',
   SHIP: 'Ship',
   EMPTY: 'null',
+}
+
+export const SHIPS = {
+  CARRIER: new Ship(5),
+  BATTLESHIP: new Ship(4),
+  CRUISER: new Ship(3),
+  SUBMARINE: new Ship(3),
+  DESTROYER: new Ship(2),
 }

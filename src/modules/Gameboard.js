@@ -1,6 +1,6 @@
+import '@/styles/Board.css'
 import { Ship } from './Ship'
-import { ERRORS } from '@/utils/constants.js'
-import { MARK } from '@/utils/constants.js'
+import { ERRORS, MARK } from '@/utils/constants.js'
 
 export class Gameboard {
   #size = 10
@@ -119,5 +119,19 @@ export class Gameboard {
 
   allSunk() {
     return this.#ships.every((ship) => ship.isSunk())
+  }
+
+  render() {
+    const Board = document.createElement('div')
+    Board.classList.add('board')
+
+    for (let i = 0; i < this.#size * this.#size; i++) {
+      const Cell = document.createElement('div')
+      Cell.classList.add('cell')
+
+      Board.appendChild(Cell)
+    }
+
+    return Board
   }
 }
