@@ -10,5 +10,5 @@ const bot = new Player()
 
 app.append(
   Title('Battleship'),
-  Playground(player.gameboard.render(), bot.gameboard.render()),
+  Playground(player.gameboard.render(), bot.gameboard.render(true)),
 )

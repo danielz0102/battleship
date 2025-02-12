@@ -10,3 +10,37 @@
   width: 50px;
   height: 50px;
 }
+
+.cell--hidden {
+  &:not(.cell--ship, .cell--hit, .cell--missed):hover {
+    cursor: pointer;
+
+    &:hover {
+      border-color: #a1efb3;
+      background-color: #a1efb3;
+    }
+  }
+}
+
+.cell--hit,
+.cell--missed {
+  display: grid;
+  place-content: center;
+
+  &::after {
+    content: 'X';
+    font-size: 1.5rem;
+  }
+}
+
+.cell--hit {
+  background-color: #e2364a;
+}
+
+.cell--missed {
+  background-color: #ccc;
+}
+
+.cell--ship {
+  background-color: #000;
+}

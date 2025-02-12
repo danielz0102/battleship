@@ -121,17 +121,28 @@ export class Gameboard {
     return this.#ships.every((ship) => ship.isSunk())
   }
 
-  render() {
+  render(shipsHidden = false) {
     const Board = document.createElement('div')
     Board.classList.add('board')
 
-    for (let i = 0; i < this.#size * this.#size; i++) {
+    this.#forEach((cell) => {
       const Cell = document.createElement('div')
       Cell.classList.add('cell')
-
+      Cell.classList.toggle('cell--hit', cell === MARK.HIT)
+      Cell.classList.toggle('cell--missed', cell === MARK.MISSED)
+      Cell.classList.toggle('cell--ship', cell instanceof Ship && !shipsHidden)
+      Cell.classList.toggle('cell--hidden', shipsHidden)
       Board.appendChild(Cell)
-    }
+    })
 
     return Board
+  }
+
+  #forEach(callback) {
+    this.#grid.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        callback(cell, x, y)
+      })
+    })
   }
 }
