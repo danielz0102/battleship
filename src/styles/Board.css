@@ -44,3 +44,7 @@
 .cell--ship {
   background-color: #000;
 }
+
+.cell--winner {
+  border: 2px solid #ff00bf;
+}

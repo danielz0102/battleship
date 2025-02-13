@@ -63,8 +63,8 @@ describe('Gameboard.receiveAttack()', () => {
   it('marks the cell if a ship is hit', () => {
     expect(gameboard.getCell(5, 5)).toBe(MARK.HIT)
   })
-  it('returns false if a ship is missed', () => {
-    expect(gameboard.receiveAttack(0, 0)).toBe(false)
+  it('returns true if a ship is missed', () => {
+    expect(gameboard.receiveAttack(0, 0)).toBe(true)
   })
   it('marks the cell if an attack is missed', () => {
     expect(gameboard.getCell(0, 0)).toBe(MARK.MISSED)

@@ -109,7 +109,7 @@ export class Gameboard {
 
     if (this.#grid[y][x] === null) {
       this.#grid[y][x] = MARK.MISSED
-      return false
+      return true
     }
 
     this.#grid[y][x].hit()
@@ -121,17 +121,30 @@ export class Gameboard {
     return this.#ships.every((ship) => ship.isSunk())
   }
 
-  render(shipsHidden = false) {
+  render(shipsHidden = false, winner = false) {
     const Board = document.createElement('div')
     Board.classList.add('board')
 
-    this.#forEach((cell) => {
+    this.#forEach((cell, x, y) => {
+      const isUndiscovered = cell !== MARK.HIT && cell !== MARK.MISSED
+      const hideCell = isUndiscovered && shipsHidden && !winner
+      const showShip = cell instanceof Ship && !hideCell
+
       const Cell = document.createElement('div')
       Cell.classList.add('cell')
+      Cell.classList.toggle('cell--winner', winner)
+      Cell.classList.toggle('cell--hidden', hideCell)
+      Cell.classList.toggle('cell--ship', showShip)
       Cell.classList.toggle('cell--hit', cell === MARK.HIT)
       Cell.classList.toggle('cell--missed', cell === MARK.MISSED)
-      Cell.classList.toggle('cell--ship', cell instanceof Ship && !shipsHidden)
-      Cell.classList.toggle('cell--hidden', shipsHidden)
+
+      if (Cell.classList.contains('cell--hidden')) {
+        Cell.addEventListener('click', () => {
+          this.receiveAttack(x, y)
+          document.dispatchEvent(new CustomEvent('attack'))
+        })
+      }
+
       Board.appendChild(Cell)
     })
 
@@ -144,5 +157,23 @@ export class Gameboard {
         callback(cell, x, y)
       })
     })
+  }
+
+  isFull() {
+    let full = true
+    for (let y = 0; y < this.#size; y++) {
+      for (let x = 0; x < this.#size; x++) {
+        if (this.#grid[y][x] === null) {
+          full = false
+          break
+        }
+      }
+    }
+
+    return full
+  }
+
+  get size() {
+    return this.#size
   }
 }
