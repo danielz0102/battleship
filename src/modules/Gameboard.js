@@ -31,7 +31,7 @@ export class Gameboard {
     }
 
     if (!this.#spaceIsAvailable({ x, y, length: ship.length, isVertical })) {
-      return
+      return false
     }
 
     for (let i = 0; i < ship.length; i++) {
@@ -41,6 +41,7 @@ export class Gameboard {
     }
 
     this.#ships.push(ship)
+    return true
   }
 
   getCell(x, y) {
@@ -89,6 +90,10 @@ export class Gameboard {
     for (let i = 0; i < length; i++) {
       const dx = isVertical ? x : x + i
       const dy = isVertical ? y + i : y
+
+      if (!this.#isValidCoordinate(dx) || !this.#isValidCoordinate(dy)) {
+        return false
+      }
 
       if (this.#grid[dy][dx] !== null) {
         return false

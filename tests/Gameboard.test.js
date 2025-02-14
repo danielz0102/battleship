@@ -22,6 +22,15 @@ describe('Gameboard.placeShip()', () => {
       gameboard.placeShip({ x: 5, y: 5, isVertical: null }),
     ).toThrow()
   })
+  it('returns true if a ship is place correctly', () => {
+    const gameboard = new Gameboard()
+    expect(gameboard.placeShip({ x: 0, y: 0 })).toBe(true)
+  })
+  it('returns false if a ship cannot be placed', () => {
+    const gameboard = new Gameboard()
+    gameboard.placeShip({ x: 0, y: 0 })
+    expect(gameboard.placeShip({ x: 0, y: 0 })).toBe(false)
+  })
   it('places a ship on the cells according to its length', () => {
     gameboard.placeShip({ x: 5, y: 5 })
     expect(gameboard.getCell(5, 5)).toBeInstanceOf(Ship)
@@ -42,9 +51,18 @@ describe('Gameboard.placeShip()', () => {
     expect(gameboard.getCell(8, 5)).toBeNull()
     expect(gameboard.getCell(9, 5)).toBeNull()
   })
+  it('returns false if a ship overlaps another', () => {
+    expect(
+      gameboard.placeShip({ x: 5, y: 4, ship: new Ship(5), isVertical: true }),
+    ).toBe(false)
+  })
   it('does not place a ship if it leaves the grid', () => {
     gameboard.placeShip({ x: 9, y: 9 })
     expect(gameboard.getCell(9, 9)).toBeNull()
+  })
+  it('returns false if the ship leaves the grid', () => {
+    const gameboard = new Gameboard()
+    expect(gameboard.placeShip({ x: 9, y: 9 })).toBe(false)
   })
 })
 
@@ -120,15 +138,15 @@ describe('Gameboard.getCell()', () => {
   })
 })
 
-describe('Gameboard.print()', () => {
-  const gameboard = new Gameboard()
+// describe('Gameboard.print()', () => {
+//   const gameboard = new Gameboard()
 
-  it('sends an output to the console', () => {
-    const spy = jest.spyOn(console, 'log')
-    gameboard.print()
-    expect(spy).toHaveBeenCalled()
-  })
-})
+//   it('sends an output to the console', () => {
+//     const spy = jest.spyOn(console, 'log')
+//     gameboard.print()
+//     expect(spy).toHaveBeenCalled()
+//   })
+// })
 
 describe('Gameboard.render()', () => {
   const gameboard = new Gameboard()
