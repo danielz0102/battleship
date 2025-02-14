@@ -5,36 +5,7 @@ import { Ship } from './Ship'
 export class Player {
   constructor() {
     this.gameboard = new Gameboard()
-    this.gameboard.placeShip({
-      x: 0,
-      y: 0,
-      ship: new Ship(5),
-      isVertical: false,
-    })
-    this.gameboard.placeShip({
-      x: 2,
-      y: 2,
-      ship: new Ship(4),
-      isVertical: true,
-    })
-    this.gameboard.placeShip({
-      x: 4,
-      y: 4,
-      ship: new Ship(3),
-      isVertical: false,
-    })
-    this.gameboard.placeShip({
-      x: 6,
-      y: 6,
-      ship: new Ship(3),
-      isVertical: true,
-    })
-    this.gameboard.placeShip({
-      x: 8,
-      y: 8,
-      ship: new Ship(2),
-      isVertical: false,
-    })
+    this.#placeRandomShips()
   }
 
   static attack(gameboard) {
@@ -57,5 +28,27 @@ export class Player {
         this.gameboard.receiveAttack(x, y)
       }
     }
+  }
+
+  #placeRandomShips() {
+    const ships = [
+      new Ship(5),
+      new Ship(4),
+      new Ship(3),
+      new Ship(3),
+      new Ship(2),
+    ]
+
+    ships.forEach((ship) => {
+      let x = randomNum(this.gameboard.size - 1)
+      let y = randomNum(this.gameboard.size - 1)
+      let isVertical = randomNum(1) === 1
+
+      while (!this.gameboard.placeShip({ x, y, ship, isVertical })) {
+        x = randomNum(this.gameboard.size - 1)
+        y = randomNum(this.gameboard.size - 1)
+        isVertical = randomNum(1) === 1
+      }
+    })
   }
 }
