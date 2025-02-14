@@ -1,6 +1,7 @@
 import { Player } from './Player'
 import { Playground } from '@/components/Playground'
 import { Title } from '@/components/Title'
+import { Button } from '@/components/Button'
 
 export class DOMController {
   constructor() {
@@ -22,10 +23,17 @@ export class DOMController {
 
     this.app.replaceChildren(
       Title(botLose ? 'You win!' : playerLose ? 'You lose :(' : 'Battleship'),
+      Button('Restart', () => this.#restart()),
       Playground(
         this.player.gameboard.render(false, botLose),
         this.bot.gameboard.render(hideEnemyShips, playerLose),
       ),
     )
+  }
+
+  #restart() {
+    this.player = new Player()
+    this.bot = new Player()
+    this.render()
   }
 }
